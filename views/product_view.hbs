@@ -45,7 +45,7 @@
 							<td>{{ product_name }}</td>
 							<td>{{ product_price }}</td>
 							<td class="text-center">
-								<a href="javascript:void(0)" class="btn btn-sm btn-outline-info edit" data-id="{{ product_id }}" data-product_name="{{ product_name }}" data-product_price="{{ product_price }} ">Edit</a>
+								<a href="javascript:void(0)" class="btn btn-sm btn-outline-info edit" data-id="{{ product_id }}" data-product_name="{{ product_name }}" data-product_price="{{product_price}}">Edit</a>
 								<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger delete" data-id="{{ product_id }}">Delete</a>
 							</td>
 						</tr>
@@ -143,7 +143,7 @@
 		'{{/if}}'
 		$(document).ready(function(){
             //tampilkan data ke modal untuk edit
-            $('#mytable').on('click','.edit',function(){
+            $('body').on('click','.edit',function(){
             	var product_id = $(this).data('id');
             	var product_name = $(this).data('product_name');
             	var product_price = $(this).data('product_price');
