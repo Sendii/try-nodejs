@@ -33,9 +33,8 @@ app.use('/assets', express.static(__dirname + '/public'))
 
 var sessMessage = ''
 var sessActive = false
-function textSession(message){
-	return message
-}
+
+var aksi = ''
 
 app.listen(3000, function(){
 	// list data product
@@ -47,17 +46,26 @@ app.listen(3000, function(){
 			}
 			sessMessage = req.session
 
-			if (sessActive){					
-				sessMessage.msg = "Berhasil menambahkan data"
+			if (sessActive){
+				if (aksi == "save") {					
+					sessMessage.msg = "Berhasil menambahkan data"
+				}else if(aksi == "update"){
+					sessMessage.msg = "Berhasil mengupdate data"
+				}else if(aksi == "delete"){
+					sessMessage.msg = "Berhasil menghapus data"
+				}else{
+					sessMessage.msg = "Whoops, ada kesalahan"
+				}
 				console.log('1:' + sessActive)
 			}
 
 			res.render('product_view', {
 				results: result,
-				session: textSession(sessMessage),
+				session: sessMessage,
 				sessCheck: sessActive
 			})
 			sessActive = false
+			aksi = ''
 			console.log('2:' + sessActive)
 			req.session.destroy()
 		})
@@ -73,10 +81,38 @@ app.listen(3000, function(){
 		let query = conn.query(sql, data, (err, result) => {
 			if (err) {
 				console.log(err.message)
-			}else{				
-				sessActive = true
-				console.log("Berhasil menambahkan data")
-			}						
+			}
+			sessActive = true
+			aksi = "save"
+			console.log("Berhasil menambahkan data")					
+			res.redirect('/')
+		})
+	})
+
+	// update data product
+	app.post('/update', (req, res) => {
+		let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id
+		let query = conn.query(sql, (err, results) => {
+			if (err) {
+				console.log(err.message)
+			}
+			sessActive = true
+			aksi = "update"
+			console.log("Berhasil mengupdate data")
+			res.redirect('/')
+		})
+	})
+
+	// delete data product
+	app.post('/delete', (req, res) => {
+		let sql = "DELETE FROM product WHERE product_id="+req.body.product_id
+		let query = conn.query(sql, (err, results) => {
+			if (err) {
+				console.log(err.message)
+			}
+			sessActive = true
+			aksi = "delete"
+			console.log("Berhasil mengdelete data")
 			res.redirect('/')
 		})
 	})
