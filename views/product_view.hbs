@@ -4,11 +4,25 @@
 	<meta charset="utf-8">
 	<title>CRUD Nodejs</title>
 	<link rel="stylesheet" href="/assets/css/bootstrap.css">
+	<style>
+		.animate{
+			height: 0px;
+			transition: height 1s;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
 		<h2>Product List</h2>
 		<button class="btn btn-success my-2" data-toggle="modal" data-target="#myModalAdd">Add Data</button>
+		{{#if sessCheck}}		
+		<div class="alert alert-info my-2" id="alert-info">
+			<b>
+
+				{{ session.msg }}
+			</b>
+		</div>
+		{{/if}}
 		<table class="table table-bordered table-hover" id="mytable">
 			<thead>
 				<tr>
@@ -63,5 +77,14 @@
 	</form>
 	<script src="/assets/js/jquery-3.5.1.min.js"></script>
 	<script src="/assets/js/bootstrap.js"></script>
+	<script>
+		// var a = '{{session.msg}}'
+		// alert(a)
+		'{{#if sessCheck}}'
+		setTimeout(() => {
+			var list = document.getElementById("alert-info").remove()
+		}, 7000)		
+		'{{/if}}'
+	</script>
 </body>
 </html>
