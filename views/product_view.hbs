@@ -13,39 +13,47 @@
 </head>
 <body>
 	<div class="container">
-		<h2>Product List</h2>
-		<button class="btn btn-success my-2" data-toggle="modal" data-target="#myModalAdd">Add Data</button>
-		{{#if sessCheck}}		
-		<div class="alert alert-info my-2" id="alert-info">
-			<b>
+		<div class="card shadow mt-5">
+			<div class="card-header">
+				<h3>
+					Product List
+				</h3>
+			</div>
+			<div class="card-body">
+				<button class="btn btn-outline-success my-2" data-toggle="modal" data-target="#myModalAdd">Add Data</button>
+				{{#if sessCheck}}		
+				<div class="alert alert-info my-2" id="alert-info">
+					<b>
 
-				{{ session.msg }}
-			</b>
+						{{ session.msg }}
+					</b>
+				</div>
+				{{/if}}
+				<table class="table table-bordered table-hover" id="mytable">
+					<thead>
+						<tr>
+							<th>Id </th>
+							<th>Name</th>
+							<th>Price</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each results}}
+						<tr>
+							<td>{{ product_id }}</td>
+							<td>{{ product_name }}</td>
+							<td>{{ product_price }}</td>
+							<td class="text-center">
+								<a href="javascript:void(0)" class="btn btn-sm btn-outline-info edit" data-id="{{ product_id }}" data-product_name="{{ product_name }}" data-product_price="{{ product_price }} ">Edit</a>
+								<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger delete" data-id="{{ product_id }}">Delete</a>
+							</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
 		</div>
-		{{/if}}
-		<table class="table table-bordered table-hover" id="mytable">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Price</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{#each results}}
-				<tr>
-					<td>{{ product_id }}</td>
-					<td>{{ product_name }}</td>
-					<td>{{ product_price }}</td>
-					<td>
-						<a href="javascript:void(0)" class="btn btn-sm btn-info edit" data-id="{{ product_id }}" data-product_name="{{ product_name }}" data-product_price="{{ product_price }} ">Edit</a>
-						<a href="javascript:void(0)" class="btn btn-sm btn-danger delete" data-id="{{ product_id }}">Delete</a>
-					</td>
-				</tr>
-				{{/each}}
-			</tbody>
-		</table>
 	</div>
 	<!-- Modal Add Produk-->
 	<form action="/save" method="post">
@@ -64,7 +72,7 @@
 						</div>
 
 						<div class="form-group">
-							<input type="text" name="product_price" class="form-control" placeholder="Price" required>
+							<input type="number" name="product_price" class="form-control" placeholder="Price" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -91,7 +99,7 @@
 						</div>
 
 						<div class="form-group">
-							<input type="text" name="product_price" class="form-control price" placeholder="Price" required>
+							<input type="number" name="product_price" class="form-control price" placeholder="Price" required>
 						</div>
 					</div>
 					<div class="modal-footer">

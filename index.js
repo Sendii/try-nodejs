@@ -4,14 +4,18 @@ const hbs = require('hbs')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
 const session = require('express-session')
+const dotenv = require('dotenv')
+const file = require('fs')
 const app = express()
 
-const conn = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'nodejs1'
-})
+dotenv.config()
+var db = {
+	host: `${process.env.DB_HOST}`,
+	database: `${process.env.DB_NAME}`,
+	user: `${process.env.DB_USER}`,
+	password: `${process.env.DB_PASSWORD}`
+}
+const conn = mysql.createConnection(db)
 
 // konek ke database
 conn.connect((err) => {
@@ -38,6 +42,7 @@ var aksi = ''
 
 app.listen(3000, function(){
 	// list data product
+	var total = ''
 	app.get('/', (req, res) => {
 		let sql = "SELECT * FROM PRODUCT ORDER BY product_id DESC";
 		let query = conn.query(sql, (err, result) => {
