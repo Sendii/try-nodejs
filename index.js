@@ -121,4 +121,24 @@ app.listen(3000, function(){
 			res.redirect('/')
 		})
 	})
+
+	app.get('/login', (req, res) => {
+		res.render('login')
+	})
+
+	app.post('/login', (req, res) => {
+		let sql = "SELECT * FROM `user` WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'";
+		let query = conn.query(sql, (err, results) => {
+			if (err) {
+				console.log(err.message)
+			}
+			if (results.length > 0) {
+				res.redirect('/')
+				checkLogin = true
+			}else{				
+				res.redirect('/login')
+				checkLogin = false
+			}
+		})
+	})
 })
